@@ -1,43 +1,192 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculator</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>To-Do App</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f4f4f4;
+        padding: 20px;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: auto;
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+        text-align: center;
+    }
+
+    .input-section {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    input[type="text"] {
+        flex: 1;
+        padding: 10px;
+        font-size: 16px;
+    }
+
+    button {
+        padding: 10px 15px;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+    }
+
+    .add-btn {
+        background: #28a745;
+        color: white;
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    li {
+        background: #f9f9f9;
+        margin-bottom: 10px;
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    .task-info {
+        margin-bottom: 8px;
+    }
+
+    .timestamp {
+        font-size: 12px;
+        color: gray;
+    }
+
+    .actions button {
+        margin-right: 5px;
+    }
+
+    .complete-btn {
+        background: #007bff;
+        color: white;
+    }
+
+    .edit-btn {
+        background: #ffc107;
+    }
+
+    .delete-btn {
+        background: #dc3545;
+        color: white;
+    }
+
+    .section {
+        margin-top: 25px;
+    }
+</style>
 </head>
+
 <body>
 
-<div class="calculator">
-    <input type="text" id="display" readonly>
+<div class="container">
+    <h1>To-Do App</h1>
 
-    <div class="buttons">
-        <button onclick="clearDisplay()">C</button>
-        <button onclick="appendValue('/')">/</button>
-        <button onclick="appendValue('*')">*</button>
-        <button onclick="deleteLast()">⌫</button>
+    <div class="input-section">
+        <input type="text" id="taskInput" placeholder="Enter a task">
+        <button class="add-btn" onclick="addTask()">Add Task</button>
+    </div>
 
-        <button onclick="appendValue('7')">7</button>
-        <button onclick="appendValue('8')">8</button>
-        <button onclick="appendValue('9')">9</button>
-        <button onclick="appendValue('-')">-</button>
+    <div class="section">
+        <h2>Pending Tasks</h2>
+        <ul id="pendingList"></ul>
+    </div>
 
-        <button onclick="appendValue('4')">4</button>
-        <button onclick="appendValue('5')">5</button>
-        <button onclick="appendValue('6')">6</button>
-        <button onclick="appendValue('+')">+</button>
-
-        <button onclick="appendValue('1')">1</button>
-        <button onclick="appendValue('2')">2</button>
-        <button onclick="appendValue('3')">3</button>
-        <button rowspan="2" onclick="calculate()">=</button>
-
-        <button onclick="appendValue('0')">0</button>
-        <button onclick="appendValue('.')">.</button>
+    <div class="section">
+        <h2>Completed Tasks</h2>
+        <ul id="completedList"></ul>
     </div>
 </div>
 
-<script src="script.js"></script>
+<script>
+function getCurrentDateTime() {
+    return new Date().toLocaleString();
+}
+
+function addTask() {
+    const taskInput = document.getElementById("taskInput");
+    const taskText = taskInput.value.trim();
+
+    if (taskText === "") {
+        alert("Please enter a task.");
+        return;
+    }
+
+    const li = createTaskElement(taskText, getCurrentDateTime());
+
+    document.getElementById("pendingList").appendChild(li);
+
+    taskInput.value = "";
+}
+
+function createTaskElement(taskText, createdTime) {
+    const li = document.createElement("li");
+
+    li.innerHTML = `
+        <div class="task-info">
+            <strong class="task-text">${taskText}</strong><br>
+            <span class="timestamp">Added: ${createdTime}</span>
+        </div>
+
+        <div class="actions">
+            <button class="complete-btn">Complete</button>
+            <button class="edit-btn">Edit</button>
+            <button class="delete-btn">Delete</button>
+        </div>
+    `;
+
+    const completeBtn = li.querySelector(".complete-btn");
+    const editBtn = li.querySelector(".edit-btn");
+    const deleteBtn = li.querySelector(".delete-btn");
+
+    completeBtn.addEventListener("click", function () {
+        const completedTime = getCurrentDateTime();
+
+        completeBtn.remove();
+
+        const timeSpan = document.createElement("div");
+        timeSpan.className = "timestamp";
+        timeSpan.textContent = `Completed: ${completedTime}`;
+
+        li.querySelector(".task-info").appendChild(document.createElement("br"));
+        li.querySelector(".task-info").appendChild(timeSpan);
+
+        document.getElementById("completedList").appendChild(li);
+    });
+
+    editBtn.addEventListener("click", function () {
+        const taskElement = li.querySelector(".task-text");
+        const updatedTask = prompt("Edit task:", taskElement.textContent);
+
+        if (updatedTask && updatedTask.trim() !== "") {
+            taskElement.textContent = updatedTask.trim();
+        }
+    });
+
+    deleteBtn.addEventListener("click", function () {
+        li.remove();
+    });
+
+    return li;
+}
+</script>
 
 </body>
 </html>
