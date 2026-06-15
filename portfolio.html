@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vivek Kumar Nishad — Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #0d0f14;
+      --surface:  #13161e;
+      --card:     #1a1e28;
+      --accent:   #6c63ff;
+      --accent2:  #a78bfa;
+      --gold:     #f0c060;
+      --text:     #e8eaf0;
+      --muted:    #8891a8;
+      --border:   #252a38;
+      --radius:   14px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.1rem 6vw;
+      background: rgba(13,15,20,0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem;
+      color: var(--accent2);
+      letter-spacing: 0.02em;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 7rem 6vw 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-glow {
+      position: absolute;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(108,99,255,0.18) 0%, transparent 70%);
+      top: -100px; right: -100px;
+      pointer-events: none;
+    }
+    .hero-inner {
+      display: flex;
+      align-items: center;
+      gap: 5rem;
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      flex-wrap: wrap;
+    }
+    .hero-text { flex: 1; min-width: 280px; }
+    .hero-eyebrow {
+      display: inline-block;
+      background: rgba(108,99,255,0.15);
+      border: 1px solid rgba(108,99,255,0.4);
+      color: var(--accent2);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.35rem 0.9rem;
+      border-radius: 50px;
+      margin-bottom: 1.4rem;
+    }
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      line-height: 1.12;
+      color: var(--text);
+      margin-bottom: 1rem;
+    }
+    h1 span { color: var(--accent); }
+    .hero-bio {
+      font-size: 1.05rem;
+      color: var(--muted);
+      line-height: 1.75;
+      max-width: 480px;
+      margin-bottom: 2rem;
+    }
+    .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      padding: 0.75rem 1.8rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-primary:hover { background: #5a52e0; transform: translateY(-2px); }
+    .btn-outline {
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 0.75rem 1.8rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.9rem;
+      transition: border-color 0.2s, transform 0.15s;
+    }
+    .btn-outline:hover { border-color: var(--accent); transform: translateY(-2px); }
+
+    /* ── PHOTO FRAME ── */
+    .hero-photo-wrap {
+      flex-shrink: 0;
+      position: relative;
+      width: 300px;
+    }
+    .photo-ring {
+      position: absolute;
+      inset: -12px;
+      border-radius: 50%;
+      border: 2px dashed rgba(108,99,255,0.35);
+      animation: spin 18s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .photo-ring-dots {
+      position: absolute;
+      inset: -20px;
+      border-radius: 50%;
+      border: 1px solid transparent;
+      background: conic-gradient(from 0deg, rgba(108,99,255,0.5) 0deg, transparent 60deg, transparent 300deg, rgba(108,99,255,0.5) 360deg) border-box;
+    }
+    .hero-photo {
+      width: 300px; height: 300px;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: center top;
+      border: 4px solid var(--accent);
+      box-shadow: 0 0 60px rgba(108,99,255,0.35);
+      display: block;
+      position: relative;
+      z-index: 1;
+    }
+    .photo-badge {
+      position: absolute;
+      bottom: 10px; right: -10px;
+      background: var(--gold);
+      color: #0d0f14;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      padding: 0.4rem 0.85rem;
+      border-radius: 50px;
+      z-index: 2;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+    }
+
+    /* ── SECTION BASE ── */
+    section { padding: 5rem 6vw; max-width: 1100px; margin: 0 auto; }
+    .section-label {
+      display: flex; align-items: center; gap: 0.75rem;
+      font-size: 0.78rem; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 0.6rem;
+    }
+    .section-label::after {
+      content: ''; flex: 1; height: 1px;
+      background: linear-gradient(to right, var(--accent2), transparent);
+      max-width: 80px;
+    }
+    h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.7rem, 3vw, 2.4rem);
+      margin-bottom: 2.5rem;
+      color: var(--text);
+    }
+
+    /* ── SKILLS ── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1.2rem;
+    }
+    .skill-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.4rem 1.6rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .skill-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+    .skill-card-icon { font-size: 1.6rem; margin-bottom: 0.7rem; }
+    .skill-card-title { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.5rem; }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.6rem; }
+    .tag {
+      background: rgba(108,99,255,0.12);
+      color: var(--accent2);
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 0.25rem 0.65rem;
+      border-radius: 50px;
+      border: 1px solid rgba(108,99,255,0.25);
+    }
+
+    /* ── PROJECTS ── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+    .project-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      transition: border-color 0.2s, transform 0.2s;
+      display: flex; flex-direction: column; gap: 0.8rem;
+    }
+    .project-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+    .project-year {
+      font-size: 0.75rem; font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 0.08em;
+    }
+    .project-title { font-size: 1.15rem; font-weight: 700; }
+    .project-desc { color: var(--muted); font-size: 0.88rem; line-height: 1.7; }
+
+    /* ── ACHIEVEMENTS ── */
+    .achievements-list { display: flex; flex-direction: column; gap: 1rem; }
+    .achievement-item {
+      display: flex; align-items: flex-start; gap: 1.2rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.3rem 1.6rem;
+    }
+    .ach-icon { font-size: 1.4rem; flex-shrink: 0; }
+    .ach-text { font-size: 0.95rem; color: var(--text); line-height: 1.6; }
+
+    /* ── CERTIFICATIONS ── */
+    .certs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1.2rem;
+    }
+    .cert-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: var(--radius);
+      padding: 1.4rem 1.6rem;
+    }
+    .cert-date { font-size: 0.75rem; color: var(--muted); margin-bottom: 0.4rem; }
+    .cert-title { font-weight: 700; font-size: 0.95rem; }
+    .cert-score { margin-top: 0.4rem; font-size: 0.82rem; color: var(--gold); }
+
+    /* ── CONTACT ── */
+    #contact { text-align: center; }
+    .contact-cards {
+      display: flex; justify-content: center;
+      gap: 1.2rem; flex-wrap: wrap;
+      margin-top: 2rem;
+    }
+    .contact-card {
+      display: flex; align-items: center; gap: 0.75rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem 1.6rem;
+      text-decoration: none;
+      color: var(--text);
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: border-color 0.2s, transform 0.15s;
+    }
+    .contact-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+    .contact-card-icon { font-size: 1.2rem; }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 2.5rem 6vw;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      .hero-inner { flex-direction: column-reverse; gap: 2.5rem; text-align: center; }
+      .hero-cta { justify-content: center; }
+      .hero-photo-wrap { width: 220px; }
+      .hero-photo { width: 220px; height: 220px; }
+      nav { padding: 1rem 4vw; }
+      .nav-links { gap: 1.2rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .photo-ring { animation: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">VK.</div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <div id="hero">
+    <div class="hero-glow"></div>
+    <div class="hero-inner">
+      <div class="hero-text" id="about">
+        <div class="hero-eyebrow">✦ Open to Internships</div>
+        <h1>Hi, I'm <span>Vivek Kumar</span> Nishad</h1>
+        <p class="hero-bio">
+          B.Tech CSE student at CV Raman Global University, Bhubaneswar.
+          I build full-stack web apps, love competitive programming, and
+          am passionate about clean UI and real-world problem-solving.
+        </p>
+        <div class="hero-cta">
+          <a href="#projects" class="btn-primary">View Projects</a>
+          <a href="#contact" class="btn-outline">Get in Touch</a>
+        </div>
+      </div>
+
+      <div class="hero-photo-wrap">
+        <div class="photo-ring"></div>
+        <!-- Replace "photo.jpg" with your actual image file -->
+        <img
+          src="/Users/vivekkumar/Documents/PHOTO-2026-06-10-21-06-56.jpg"
+          alt="Vivek Kumar Nishad"
+          class="hero-photo"
+          onerror="this.style.background='linear-gradient(135deg,#6c63ff,#a78bfa)';this.src='';this.alt='VK';"
+        />
+        <div class="photo-badge">2nd Year · CSE</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="section-label">What I work with</div>
+    <h2>Technical Skills</h2>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <div class="skill-card-icon">⚡</div>
+        <div class="skill-card-title">Languages</div>
+        <div class="skill-tags">
+          <span class="tag">C++</span>
+          <span class="tag">C</span>
+          <span class="tag">Python</span>
+          <span class="tag">Java</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card-icon">🌐</div>
+        <div class="skill-card-title">Web Development</div>
+        <div class="skill-tags">
+          <span class="tag">HTML</span>
+          <span class="tag">CSS</span>
+          <span class="tag">JavaScript</span>
+          <span class="tag">React.js</span>
+          <span class="tag">Node.js</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card-icon">🧠</div>
+        <div class="skill-card-title">Core CS</div>
+        <div class="skill-tags">
+          <span class="tag">DSA</span>
+          <span class="tag">OOP</span>
+          <span class="tag">Algorithms</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card-icon">🗄️</div>
+        <div class="skill-card-title">Databases & Tools</div>
+        <div class="skill-tags">
+          <span class="tag">MySQL</span>
+          <span class="tag">MongoDB</span>
+          <span class="tag">GitHub</span>
+          <span class="tag">VS Code</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="section-label">Things I've built</div>
+    <h2>Projects</h2>
+    <div class="projects-grid">
+
+      <div class="project-card">
+        <div class="project-year">2025</div>
+        <div class="project-title">🧠 AI Mental Health Support System</div>
+        <div class="project-desc">
+          AI-powered chatbot platform providing private, accessible mental health
+          guidance for students managing stress and academic pressure. Built with
+          React.js and a responsive, empathetic UI.
+        </div>
+        <div class="skill-tags">
+          <span class="tag">React.js</span>
+          <span class="tag">HTML/CSS</span>
+          <span class="tag">AI</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-year">2025</div>
+        <div class="project-title">🚗 Uber Clone — Ride Booking App</div>
+        <div class="project-desc">
+          Full-stack ride-booking app with real-time driver tracking, secure auth,
+          fare estimation, and payment integration. Uses Socket.io for live updates
+          and Google Maps API for navigation.
+        </div>
+        <div class="skill-tags">
+          <span class="tag">Node.js</span>
+          <span class="tag">Express</span>
+          <span class="tag">MongoDB</span>
+          <span class="tag">Socket.io</span>
+          <span class="tag">Maps API</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ACHIEVEMENTS -->
+  <section id="achievements">
+    <div class="section-label">Milestones</div>
+    <h2>Achievements</h2>
+    <div class="achievements-list">
+      <div class="achievement-item">
+        <div class="ach-icon">🏆</div>
+        <div class="ach-text">University Rank under 100 on the GeeksforGeeks coding leaderboard</div>
+      </div>
+      <div class="achievement-item">
+        <div class="ach-icon">💡</div>
+        <div class="ach-text">Solved 200+ DSA problems in C++ and Python across LeetCode and GeeksforGeeks</div>
+      </div>
+      <div class="achievement-item">
+        <div class="ach-icon">🎓</div>
+        <div class="ach-text">Scored 95% in the Digital Productivity with AI certification course (Jan 2026)</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CERTIFICATIONS -->
+  <section id="certifications">
+    <div class="section-label">Learning</div>
+    <h2>Certifications</h2>
+    <div class="certs-grid">
+      <div class="cert-card">
+        <div class="cert-date">January 2026</div>
+        <div class="cert-title">Digital Productivity with AI</div>
+        <div class="cert-score">Score: 95%</div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-date">February 2026</div>
+        <div class="cert-title">Java Programming Fundamentals</div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-date">2025</div>
+        <div class="cert-title">C++ Programming — GeeksforGeeks</div>
+        <div class="cert-score">OOP · STL · Problem Solving</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-label">Say hello</div>
+    <h2>Get In Touch</h2>
+    <p style="color:var(--muted);max-width:480px;margin:0 auto 1.5rem;font-size:0.95rem;line-height:1.7;">
+      I'm actively looking for internship opportunities in frontend and full-stack development.
+      Feel free to reach out!
+    </p>
+    <div class="contact-cards">
+      <a href="mailto:vivek271cs@gmail.com" class="contact-card">
+        <span class="contact-card-icon">✉️</span>
+        vivek271cs@gmail.com
+      </a>
+      <a href="tel:+919060752611" class="contact-card">
+        <span class="contact-card-icon">📞</span>
+        +91 9060752611
+      </a>
+      <a href="https://linkedin.com/in/avivek271" target="_blank" class="contact-card">
+        <span class="contact-card-icon">💼</span>
+        LinkedIn
+      </a>
+      <a href="https://github.com/Avivek121" target="_blank" class="contact-card">
+        <span class="contact-card-icon">🐙</span>
+        GitHub
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    Designed & built by Vivek Kumar Nishad · 2026 · CV Raman Global University
+  </footer>
+
+</body>
+</html>
